@@ -1,0 +1,96 @@
+---
+interface ExperienceEntry {
+  role: string;
+  company: string;
+  location: string;
+  date: string;
+  bullets: string[];
+}
+
+interface EducationEntry {
+  degree: string;
+  school: string;
+  location: string;
+  date: string;
+  details: string[];
+}
+
+interface CertificationEntry {
+  name: string;
+  issuer: string;
+  date: string;
+  link?: string;
+}
+
+interface Props {
+  experience: ExperienceEntry[];
+  education: EducationEntry[];
+  certifications?: CertificationEntry[];
+}
+
+const { experience, education, certifications = [] } = Astro.props;
+
+const items = [
+  ...education.map((e) => ({
+    kind: "education" as const,
+    heading: e.degree,
+    subheading: `${e.school} · ${e.location}`,
+    date: e.date,
+    bullets: e.details,
+    link: undefined as string | undefined,
+  })),
+  ...experience.map((e) => ({
+    kind: "experience" as const,
+    heading: e.role,
+    subheading: `${e.company} · ${e.location}`,
+    date: e.date,
+    bullets: e.bullets,
+    link: undefined as string | undefined,
+  })),
+  ...certifications.map((c) => ({
+    kind: "certification" as const,
+    heading: c.name,
+    subheading: c.issuer,
+    date: c.date,
+    bullets: [] as string[],
+    link: c.link,
+  })),
+];
+---
+
+<section id="experience" class="px-6 md:px-16 max-w-5xl mx-auto py-24">
+  <p class="font-mono text-accent text-sm mb-2">$ git log --oneline</p>
+  <h2 class="reveal text-2xl md:text-3xl font-bold text-white mb-12" data-scramble>Experience & Education</h2>
+
+  <div class="relative border-l border-border pl-8 space-y-12">
+    {items.map((item, i) => (
+      <div class="reveal relative">
+        <span class="absolute -left-[2.35rem] top-1 w-3 h-3 rounded-full bg-accent shadow-[0_0_10px_2px_var(--color-accent)] animate-pulse"></span>
+        <p class="font-mono text-xs text-neutral-500">
+          #{(i + 1).toString().padStart(2, "0")} · {item.date}
+        </p>
+        <h3 class="text-lg font-semibold text-white mt-1">
+          {item.link ? (
+            <a
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 hover:text-accent transition-colors"
+            >
+              {item.heading}
+              <span class="text-xs font-mono text-neutral-500">↗</span>
+            </a>
+          ) : (
+            item.heading
+          )}
+        </h3>
+        <p class="text-sm text-neutral-400">{item.subheading}</p>
+        {item.bullets.length > 0 && (
+          <ul class="mt-3 space-y-1.5 text-sm text-neutral-300 list-disc list-outside ml-4">
+            {item.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+        )}
+      </div>
+    ))}
+  </div>
+</section>

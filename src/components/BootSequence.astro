@@ -1,0 +1,68 @@
+<div
+  id="boot-sequence"
+  class="fixed inset-0 z-[100] bg-bg flex items-center justify-center px-6"
+>
+  <div class="w-full max-w-xl font-mono text-sm md:text-base text-accent">
+    <p id="boot-lines" class="whitespace-pre-wrap leading-relaxed"></p>
+    <span class="typewriter-cursor">▌</span>
+  </div>
+  <p class="absolute bottom-8 inset-x-0 text-center font-mono text-xs text-neutral-600">
+    press any key to skip
+  </p>
+</div>
+
+<script>
+  const overlay = document.getElementById("boot-sequence");
+  const lineEl = document.getElementById("boot-lines");
+
+  if (overlay && lineEl) {
+    const alreadyBooted = sessionStorage.getItem("booted") === "1";
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function finish() {
+      overlay!.style.transition = "opacity 0.4s ease";
+      overlay!.style.opacity = "0";
+      setTimeout(() => overlay?.remove(), 400);
+      sessionStorage.setItem("booted", "1");
+      document.removeEventListener("keydown", finish);
+      document.removeEventListener("click", finish);
+    }
+
+    if (alreadyBooted || reduceMotion) {
+      overlay.remove();
+    } else {
+      document.addEventListener("keydown", finish);
+      document.addEventListener("click", finish);
+
+      const lines = [
+        "> booting amin_eldery.sys",
+        "> mounting /experience /projects /skills",
+        "> compiling portfolio... done",
+        "> ready.",
+      ];
+
+      let text = "";
+      let li = 0;
+      let ci = 0;
+
+      function typeNext() {
+        if (li >= lines.length) {
+          setTimeout(finish, 500);
+          return;
+        }
+        const line = lines[li];
+        if (ci <= line.length) {
+          lineEl!.textContent = text + line.slice(0, ci);
+          ci++;
+          setTimeout(typeNext, 18);
+        } else {
+          text += line + "\n";
+          li++;
+          ci = 0;
+          setTimeout(typeNext, 150);
+        }
+      }
+      typeNext();
+    }
+  }
+</script>

@@ -1,0 +1,31 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Stats from "../components/Stats.astro";
+import TechMarquee from "../components/TechMarquee.astro";
+import Timeline from "../components/Timeline.astro";
+import Projects from "../components/Projects.astro";
+import Skills from "../components/Skills.astro";
+import Footer from "../components/Footer.astro";
+import resume from "../../content/resume.json";
+
+const allSkills = Object.values(resume.skills).flat();
+
+const stats = [
+  { label: "Projects Shipped", value: "0", countTo: resume.projects.length },
+  { label: "Technologies", value: "0", countTo: allSkills.length },
+  { label: "Roles Held", value: "0", countTo: resume.experience.length },
+];
+---
+
+<Layout title={`${resume.name} · Portfolio`} description={resume.title}>
+  <main class="bg-bg">
+    <Header name={resume.name} title={resume.title} contact={resume.contact} />
+    <Stats stats={stats} />
+    <TechMarquee items={allSkills} />
+    <Timeline experience={resume.experience} education={resume.education} certifications={resume.certifications} />
+    <Projects projects={resume.projects} />
+    <Skills skills={resume.skills} />
+    <Footer email={resume.contact.email} linkedin={resume.contact.linkedin} />
+  </main>
+</Layout>

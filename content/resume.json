@@ -1,0 +1,92 @@
+{
+  "name": "Amin Eldery",
+  "title": "Computer Systems Engineering Student",
+  "contact": {
+    "phone": "+1 (613) 804-6101",
+    "email": "amineldery@cmail.carleton.ca",
+    "linkedin": "TODO: paste your actual LinkedIn profile URL here"
+  },
+  "education": [
+    {
+      "degree": "Bachelor of Computer Systems Engineering, Co-op Option",
+      "school": "Carleton University",
+      "location": "Ottawa, Ontario",
+      "date": "Expected May 2028",
+      "details": ["Fourth Year Standing"]
+    }
+  ],
+  "skills": {
+    "Languages": ["Python", "C++", "C", "Java", "ARM Assembly", "MATLAB"],
+    "Embedded & Systems": ["Verilog", "Vivado", "Keil µVision", "ARM Cortex-M4", "MSP432", "Raspberry Pi", "Arduino"],
+    "Cloud & Tools": ["AWS (S3, ECR, Lambda)", "Docker", "Kubernetes", "Proxmox VE", "Linux", "Git/GitLab", "VS Code", "Jira", "Nuitka"],
+    "Libraries & Frameworks": ["NumPy", "PyTorch", "JUnit"]
+  },
+  "certifications": [
+    {
+      "name": "AWS Certified Cloud Practitioner (CLF-02)",
+      "issuer": "Amazon Web Services",
+      "date": "July 2026",
+      "link": "https://www.credly.com/badges/07a8640a-e2e1-4b1f-a868-b0fb078a99cd/linked_in_profile"
+    }
+  ],
+  "experience": [
+    {
+      "role": "DevOps Engineering Intern (Co-op)",
+      "company": "Terra Motion Canada",
+      "location": "Kanata, Ontario",
+      "date": "May 2026 – Sep 2026",
+      "bullets": [
+        "Developed two analysis tools in Python, C++, and MATLAB for Synthetic Aperture Radar (SAR) data processing and resolved software issues caused by evolving satellite data formats.",
+        "Containerized 6 Python/C++ services using Docker and supported deployment on AWS (ECR, S3, Lambda), improving deployment consistency and scalability.",
+        "Optimized software packaging using Nuitka and developed test cases to validate containerized applications and ensure deployment reliability.",
+        "Configured and maintained Proxmox VE workstations by provisioning Linux virtual machines and troubleshooting virtualization and networking issues.",
+        "Collaborated with cross-functional engineers using Git and GitLab to implement features, debug production issues, and enhance software performance."
+      ]
+    },
+    {
+      "role": "Admin System Assistant",
+      "company": "Bluestar Electric Engineering Corporation",
+      "location": "Ottawa, Ontario",
+      "date": "May 2024 – Jan 2026",
+      "bullets": [
+        "Administered and supported Dentrix software across multiple dental clinic environments.",
+        "Troubleshot hardware, software, networking, and dental imaging system issues through remote support.",
+        "Maintained Windows server infrastructure, user accounts, backups, and secure remote access services.",
+        "Managed Microsoft 365, including Exchange, SharePoint, and Entra ID (Azure AD) administration."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "MetroBeacon",
+      "tech": ["Python", "React Native", "Firebase", "Raspberry Pi", "Sense HAT"],
+      "org": "Personal Project",
+      "link": "https://github.com/amineldery/MetroBeacon",
+      "bullets": [
+        "Built a campus transit-assistance system delivering real-time OC Transpo bus and train arrivals through a mobile app, LED indicators, and a Raspberry Pi Sense HAT display.",
+        "Ingested live GTFS-RT trip updates and vehicle positions in Python and published them to a Firebase Realtime Database for cross-device access.",
+        "Developed a React Native (Expo) GUI with dark mode, accessibility, and multilingual support, alongside a GPIO-driven LED map and button-triggered arrival feedback on hardware."
+      ]
+    },
+    {
+      "name": "FPGA Ethernet Packet Processing Engine",
+      "tech": ["Verilog", "Vivado", "Zybo Z7-20"],
+      "org": "Carleton University FPGA Club",
+      "bullets": [
+        "Designed an FPGA-based Ethernet packet processor in Verilog on the Zybo Z7-20, implementing FSMs, FIFOs, and packet parsing logic.",
+        "Implemented CRC generation and validation to ensure reliable packet transmission and data integrity.",
+        "Verified functionality using Vivado simulations and self-checking testbenches while analyzing timing closure and FPGA resource utilization."
+      ]
+    },
+    {
+      "name": "Real-Time Traffic Light Controller",
+      "tech": ["Keil", "C", "MSP432", "ARM Cortex-M4"],
+      "org": "Carleton University",
+      "bullets": [
+        "Designed a real-time traffic light controller in Embedded C on the MSP432, implementing interrupt-driven pedestrian crossing and timer-based state transitions.",
+        "Configured GPIO, timers, NVIC interrupts, and debouncing to ensure reliable real-time operation.",
+        "Developed modular firmware drivers and validated functionality using Keil µVision and on-board debugging tools."
+      ]
+    }
+  ]
+}
