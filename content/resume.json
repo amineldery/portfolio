@@ -58,6 +58,16 @@
   ],
   "projects": [
     {
+      "name": "Autonomous Snowplow Robot (In Progress)",
+      "tech": ["C++", "Arduino Due", "Arduino Nano Every", "I2C", "UART", "State Machines"],
+      "org": "Carleton University · SYSC 4805 (Team of 4)",
+      "bullets": [
+        "Designing an autonomous robot that clears simulated snow from a taped indoor arena using a boustrophedon sweep, avoiding static and moving obstacles under a 25 cm/s speed cap and 5-minute run limit.",
+        "Own the mechanical and boundary subsystem: a custom 220 mm plow, a 3-channel line follower for tape detection, and an encoder-driven push-out routine that keeps the wheels within 3 cm of the boundary.",
+        "Co-authored 17 measurable requirements and a 10-state, 16-transition control state machine fusing IMU, encoder, ToF, ultrasonic, Sharp IR and digital IR sensors, with a watchdog, battery-voltage fault detection and an RGB status LED driven over UART."
+      ]
+    },
+    {
       "name": "MetroBeacon",
       "tech": ["Python", "React Native", "Firebase", "Raspberry Pi", "Sense HAT"],
       "org": "Personal Project",
