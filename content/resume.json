@@ -68,6 +68,16 @@
       ]
     },
     {
+      "name": "GPU & ASIC Mining Farm",
+      "tech": ["Linux", "HiveOS", "Hardware", "Power & Thermal", "Networking"],
+      "org": "Personal Project · 2020–2022",
+      "bullets": [
+        "Built and operated a 40-GPU mining farm (AMD RX 5700 XT) and 2 Bitmain Antminer T9 ASICs, handling hardware assembly, PCIe riser wiring, electrical circuit planning and power distribution.",
+        "Managed the full fleet remotely through HiveOS (Linux), tuning per-card clocks, voltages and memory timings for efficiency and stability, with monitoring and alerts for fast fault response.",
+        "Designed the cooling, airflow and network setup, and diagnosed hardware and software faults such as failing risers, unstable overclocks and rig crashes to keep uptime high over two years of continuous operation."
+      ]
+    },
+    {
       "name": "MetroBeacon",
       "tech": ["Python", "React Native", "Firebase", "Raspberry Pi", "Sense HAT"],
       "org": "Personal Project",
