@@ -82,6 +82,7 @@
       "name": "FPGA Ethernet Packet Processing Engine",
       "tech": ["Verilog", "Vivado", "Zybo Z7-20"],
       "org": "Carleton University FPGA Club",
+      "link": "https://github.com/amineldery/fpga-packet-processing-engine",
       "bullets": [
         "Designed an FPGA-based Ethernet packet processor in Verilog on the Zybo Z7-20, implementing FSMs, FIFOs, and packet parsing logic.",
         "Implemented CRC generation and validation to ensure reliable packet transmission and data integrity.",
