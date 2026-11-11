@@ -1,20 +1,17 @@
 ---
 interface Props {
-  stats: { label: string; value: string; countTo?: number }[];
+  stats: { label: string; countTo: number; suffix?: string }[];
 }
 
 const { stats } = Astro.props;
 ---
 
-<section class="px-6 md:px-16 max-w-5xl mx-auto py-16">
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-    {stats.map((stat) => (
-      <div class="reveal rounded-lg border border-border bg-surface p-6 text-center hover:border-accent/50 transition-colors">
-        <p
-          class="text-3xl md:text-4xl font-bold text-accent font-mono"
-          data-count-to={stat.countTo ?? ""}
-        >
-          {stat.countTo !== undefined ? "0" : stat.value}
+<section class="px-6 md:px-16 max-w-5xl mx-auto pb-8">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {stats.map((stat, i) => (
+      <div class="reveal glow-border group rounded-xl border border-border bg-surface/80 p-6 text-center transition-transform duration-300 hover:-translate-y-1" style={`--delay:${i * 90}ms`}>
+        <p class="text-3xl md:text-4xl font-bold text-accent font-mono">
+          <span data-count-to={stat.countTo}>0</span>{stat.suffix}
         </p>
         <p class="mt-2 text-xs md:text-sm text-neutral-400 font-mono">{stat.label}</p>
       </div>
@@ -27,19 +24,14 @@ const { stats } = Astro.props;
 
   function countUp(el: HTMLElement) {
     const target = Number(el.dataset.countTo);
-    if (!target || reduceMotion) {
-      el.textContent = String(target || el.textContent);
-      return;
-    }
-    const duration = 900;
+    if (reduceMotion) { el.textContent = String(target); return; }
+    const duration = 1100;
     const start = performance.now();
-
-    function tick(now: number) {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = String(Math.round(eased * target));
-      if (progress < 1) requestAnimationFrame(tick);
-    }
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / duration, 1);
+      el.textContent = String(Math.round((1 - Math.pow(1 - p, 3)) * target));
+      if (p < 1) requestAnimationFrame(tick);
+    };
     requestAnimationFrame(tick);
   }
 
@@ -47,15 +39,12 @@ const { stats } = Astro.props;
     (entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
-          const el = entry.target.querySelector<HTMLElement>("[data-count-to]");
-          if (el && el.dataset.countTo) countUp(el);
+          countUp(entry.target as HTMLElement);
           observer.unobserve(entry.target);
         }
       }
     },
-    { threshold: 0.4 }
+    { threshold: 0.6 }
   );
-  document.querySelectorAll("[data-count-to]").forEach((el) => {
-    if (el.parentElement) observer.observe(el.parentElement);
-  });
+  document.querySelectorAll("[data-count-to]").forEach((el) => observer.observe(el));
 </script>

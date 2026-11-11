@@ -1,0 +1,98 @@
+---
+import { ui } from "../lib/ui-icons";
+
+interface Props {
+  experience: { role: string; company: string; location: string; date: string; bullets: string[] }[];
+  education: { degree: string; school: string; location: string; date: string; details: string[] }[];
+  certifications?: { name: string; issuer: string; date: string; link?: string }[];
+}
+
+const { experience, education, certifications = [] } = Astro.props;
+const initials = (s: string) => s.split(/\s+/).filter((w) => /^[A-Z]/.test(w)).slice(0, 2).map((w) => w[0]).join("");
+---
+
+<section id="experience" class="px-6 md:px-16 max-w-5xl mx-auto py-20">
+  <p class="font-mono text-accent text-sm mb-2">02 · $ git log --work</p>
+  <h2 class="reveal text-3xl md:text-4xl font-bold text-white mb-12" data-scramble>Experience</h2>
+
+  <div id="timeline" class="relative pl-10 md:pl-12">
+    <div class="absolute left-[11px] md:left-[15px] top-2 bottom-2 w-px bg-border"></div>
+    <div class="timeline-progress absolute left-[11px] md:left-[15px] top-2 bottom-2 w-px"></div>
+
+    <div class="space-y-10">
+      {experience.map((job, i) => (
+        <article class="timeline-item reveal relative" style={`--delay:${i * 80}ms`}>
+          <span class="timeline-node absolute -left-10 md:-left-12 top-6 w-[23px] h-[23px] md:w-[31px] md:h-[31px] rounded-full border-2 border-border bg-bg grid place-items-center">
+            <span class="w-2 h-2 rounded-full bg-bg"></span>
+          </span>
+
+          <div class="glow-border rounded-xl border border-border bg-surface/70 p-6 transition-transform duration-300 hover:-translate-y-0.5">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+              <div class="flex items-start gap-4">
+                <span class="hidden sm:grid place-items-center w-11 h-11 shrink-0 rounded-lg border border-border bg-bg font-mono text-sm font-bold text-accent">{initials(job.company)}</span>
+                <div>
+                  <h3 class="text-lg font-semibold text-white">{job.role}</h3>
+                  <p class="text-sm text-neutral-400">{job.company} <span class="text-neutral-600">·</span> {job.location}</p>
+                </div>
+              </div>
+              <span class="self-start shrink-0 font-mono text-xs px-2.5 py-1 rounded-full border border-border text-neutral-400 bg-bg/60">{job.date}</span>
+            </div>
+            <ul class="mt-4 space-y-2 text-sm text-neutral-300">
+              {job.bullets.map((b) => (
+                <li class="flex gap-2.5"><span class="mt-[0.55rem] w-1.5 h-1.5 shrink-0 rounded-full bg-accent/70"></span><span>{b}</span></li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <h3 class="reveal mt-20 mb-6 font-mono text-sm text-neutral-400">// education &amp; certifications</h3>
+  <div class="grid md:grid-cols-2 gap-5">
+    {education.map((e) => (
+      <div class="reveal glow-border rounded-xl border border-border bg-surface/70 p-6">
+        <div class="flex items-start gap-4">
+          <span class="grid place-items-center w-11 h-11 shrink-0 rounded-lg bg-[var(--accent-soft)] text-accent"><span class="w-5 h-5" set:html={ui.cap} /></span>
+          <div>
+            <p class="font-mono text-xs text-neutral-500">{e.date}</p>
+            <h4 class="mt-1 font-semibold text-white">{e.degree}</h4>
+            <p class="text-sm text-neutral-400">{e.school} · {e.location}</p>
+            {e.details.map((d) => <p class="mt-2 text-sm text-neutral-300">{d}</p>)}
+          </div>
+        </div>
+      </div>
+    ))}
+    {certifications.map((c) => {
+      const Tag = c.link ? "a" : "div";
+      return (
+        <Tag class="reveal glow-border group rounded-xl border border-border bg-surface/70 p-6 block" style="--delay:100ms" {...(c.link ? { href: c.link, target: "_blank", rel: "noopener noreferrer" } : {})}>
+          <div class="flex items-start gap-4">
+            <span class="grid place-items-center w-11 h-11 shrink-0 rounded-lg border border-border bg-bg p-2"><img src="/icons/aws.svg" alt="" class="w-full h-full object-contain" /></span>
+            <div class="flex-1">
+              <p class="font-mono text-xs text-neutral-500">{c.date}</p>
+              <h4 class="mt-1 font-semibold text-white group-hover:text-accent transition-colors">{c.name}</h4>
+              <p class="text-sm text-neutral-400">{c.issuer}</p>
+              {c.link && <p class="mt-2 inline-flex items-center gap-1.5 font-mono text-xs text-accent">Verify on Credly <span class="w-3.5 h-3.5" set:html={ui.external} /></p>}
+            </div>
+          </div>
+        </Tag>
+      );
+    })}
+  </div>
+</section>
+
+<script>
+  const timeline = document.getElementById("timeline");
+  if (timeline) {
+    const update = () => {
+      const r = timeline.getBoundingClientRect();
+      const anchor = window.innerHeight * 0.6;
+      const p = Math.min(Math.max((anchor - r.top) / r.height, 0), 1);
+      timeline.style.setProperty("--progress", p.toFixed(3));
+    };
+    document.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+</script>

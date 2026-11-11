@@ -24,6 +24,26 @@ const { class: className = "" } = Astro.props;
     let height = 0;
     let particles: { x: number; y: number; vx: number; vy: number }[] = [];
     const LINK_DIST = 130;
+    let rgb = "52, 211, 153";
+    let running = true;
+
+    function readAccent() {
+      const probe = document.createElement("span");
+      probe.style.color = "var(--color-accent)";
+      document.body.appendChild(probe);
+      const m = getComputedStyle(probe).color.match(/[\d.]+/g);
+      probe.remove();
+      if (m) rgb = `${m[0]}, ${m[1]}, ${m[2]}`;
+    }
+    readAccent();
+    window.addEventListener("accentchange", readAccent);
+
+    // stop drawing when the hero is off screen
+    new IntersectionObserver(([e]) => {
+      const was = running;
+      running = e.isIntersecting;
+      if (running && !was) requestAnimationFrame(step);
+    }).observe(canvas);
 
     function resize() {
       width = canvas.width = parent!.clientWidth;
@@ -38,6 +58,7 @@ const { class: className = "" } = Astro.props;
     }
 
     function step() {
+      if (!running) return;
       ctx!.clearRect(0, 0, width, height);
 
       for (const p of particles) {
@@ -53,7 +74,7 @@ const { class: className = "" } = Astro.props;
           const b = particles[j];
           const dist = Math.hypot(a.x - b.x, a.y - b.y);
           if (dist < LINK_DIST) {
-            ctx!.strokeStyle = `rgba(52, 211, 153, ${0.16 * (1 - dist / LINK_DIST)})`;
+            ctx!.strokeStyle = `rgba(${rgb}, ${0.16 * (1 - dist / LINK_DIST)})`;
             ctx!.lineWidth = 1;
             ctx!.beginPath();
             ctx!.moveTo(a.x, a.y);
@@ -61,7 +82,7 @@ const { class: className = "" } = Astro.props;
             ctx!.stroke();
           }
         }
-        ctx!.fillStyle = "rgba(52, 211, 153, 0.7)";
+        ctx!.fillStyle = `rgba(${rgb}, 0.7)`;
         ctx!.beginPath();
         ctx!.arc(a.x, a.y, 1.4, 0, Math.PI * 2);
         ctx!.fill();

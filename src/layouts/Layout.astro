@@ -24,6 +24,26 @@ const SITE_URL = "https://amineldery.com";
       rel="stylesheet"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        try {
+          var saved = localStorage.getItem("accent");
+          if (saved && saved !== "emerald") root.dataset.accent = saved;
+        } catch (e) {}
+        try {
+          var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          if (sessionStorage.getItem("booted") !== "1" && !reduce) root.style.setProperty("--hero-start", "2.3s");
+        } catch (e) {}
+        window.setAccent = function (name) {
+          if (!name || name === "emerald") delete root.dataset.accent;
+          else root.dataset.accent = name;
+          try { localStorage.setItem("accent", name); } catch (e) {}
+          window.dispatchEvent(new Event("accentchange"));
+        };
+      })();
+    </script>
     <meta name="description" content={description} />
     <title>{title}</title>
 
@@ -41,6 +61,7 @@ const SITE_URL = "https://amineldery.com";
     <meta name="twitter:image" content={`${SITE_URL}/og-image.png`} />
   </head>
   <body class="text-neutral-200 antialiased">
+    <a href="#about" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[300] focus:px-4 focus:py-2 focus:rounded-md focus:bg-accent focus:text-bg">Skip to content</a>
     <BootSequence />
     <ScrollProgress />
     <CustomCursor />
@@ -83,9 +104,22 @@ const SITE_URL = "https://amineldery.com";
             }
           }
         },
-        { threshold: 0.15 }
+        { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
       );
       document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+      // buttons lean slightly toward the cursor
+      if (!reduceMotion && window.matchMedia("(pointer: fine)").matches) {
+        document.querySelectorAll<HTMLElement>(".magnetic").forEach((el) => {
+          el.addEventListener("mousemove", (e) => {
+            const r = el.getBoundingClientRect();
+            const x = (e.clientX - r.left - r.width / 2) * 0.18;
+            const y = (e.clientY - r.top - r.height / 2) * 0.3;
+            el.style.transform = `translate(${x}px, ${y}px)`;
+          });
+          el.addEventListener("mouseleave", () => (el.style.transform = ""));
+        });
+      }
     </script>
   </body>
 </html>

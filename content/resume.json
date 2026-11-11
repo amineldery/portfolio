@@ -1,10 +1,21 @@
 {
   "name": "Amin Eldery",
   "title": "Computer Systems Engineering Student",
+  "roles": [
+    "Computer Systems Engineering Student",
+    "FPGA & Embedded Systems",
+    "DevOps & Cloud · AWS Certified"
+  ],
+  "about": [
+    "I'm a fourth-year Computer Systems Engineering student at Carleton University. I like working close to the hardware: writing Verilog for FPGAs, embedded C on microcontrollers, and C++ for robots that have to react in real time.",
+    "On my co-op at Terra Motion Canada I worked on the other end of the stack, building Python and C++ tools for satellite radar data and shipping them as Docker containers on AWS. I enjoy both sides, and I'm happiest when a project needs the two to meet."
+  ],
   "contact": {
     "phone": "+1 (613) 804-6101",
     "email": "amineldery@cmail.carleton.ca",
-    "linkedin": "TODO: paste your actual LinkedIn profile URL here"
+    "linkedin": "https://www.linkedin.com/in/amin-eldery-970a19202",
+    "github": "https://github.com/amineldery",
+    "location": "Ottawa, Ontario"
   },
   "education": [
     {
@@ -12,18 +23,49 @@
       "school": "Carleton University",
       "location": "Ottawa, Ontario",
       "date": "Expected May 2028",
-      "details": ["Fourth Year Standing"]
+      "details": [
+        "Fourth Year Standing"
+      ]
     }
   ],
   "skills": {
-    "Languages": ["Python", "C++", "C", "Java", "ARM Assembly", "MATLAB"],
-    "Embedded & Systems": ["Verilog", "Vivado", "Keil µVision", "ARM Cortex-M4", "MSP432", "Raspberry Pi", "Arduino"],
-    "Cloud & Tools": ["AWS (S3, ECR, Lambda)", "Docker", "Kubernetes", "Proxmox VE", "Linux", "Git/GitLab", "VS Code", "Jira", "Nuitka"],
-    "Libraries & Frameworks": ["NumPy", "PyTorch", "JUnit"]
+    "Languages": [
+      "Python",
+      "C++",
+      "C",
+      "Java",
+      "ARM Assembly",
+      "MATLAB"
+    ],
+    "Embedded & Systems": [
+      "Verilog",
+      "Vivado",
+      "Keil µVision",
+      "ARM Cortex-M4",
+      "MSP432",
+      "Raspberry Pi",
+      "Arduino"
+    ],
+    "Cloud & Tools": [
+      "AWS (S3, ECR, Lambda)",
+      "Docker",
+      "Kubernetes",
+      "Proxmox VE",
+      "Linux",
+      "Git/GitLab",
+      "VS Code",
+      "Jira",
+      "Nuitka"
+    ],
+    "Libraries & Frameworks": [
+      "NumPy",
+      "PyTorch",
+      "JUnit"
+    ]
   },
   "certifications": [
     {
-      "name": "AWS Certified Cloud Practitioner (CLF-02)",
+      "name": "AWS Certified Cloud Practitioner (CLF-C02)",
       "issuer": "Amazon Web Services",
       "date": "July 2026",
       "link": "https://www.credly.com/badges/07a8640a-e2e1-4b1f-a868-b0fb078a99cd/linked_in_profile"
@@ -58,56 +100,90 @@
   ],
   "projects": [
     {
-      "name": "Autonomous Snowplow Robot (In Progress)",
-      "tech": ["C++", "Arduino Due", "Arduino Nano Every", "I2C", "UART", "State Machines"],
+      "name": "Autonomous Snowplow Robot",
+      "tech": [
+        "C++",
+        "Arduino Due",
+        "Arduino Nano Every",
+        "I2C",
+        "UART",
+        "State Machines"
+      ],
       "org": "Carleton University · SYSC 4805 (Team of 4)",
       "bullets": [
         "Designing an autonomous robot that clears simulated snow from a taped indoor arena using a boustrophedon sweep, avoiding static and moving obstacles under a 25 cm/s speed cap and 5-minute run limit.",
         "Own the mechanical and boundary subsystem: a custom 220 mm plow, a 3-channel line follower for tape detection, and an encoder-driven push-out routine that keeps the wheels within 3 cm of the boundary.",
         "Co-authored 17 measurable requirements and a 10-state, 16-transition control state machine fusing IMU, encoder, ToF, ultrasonic, Sharp IR and digital IR sensors, with a watchdog, battery-voltage fault detection and an RGB status LED driven over UART."
-      ]
+      ],
+      "category": "Embedded",
+      "status": "In Progress"
     },
     {
       "name": "MetroBeacon",
-      "tech": ["Python", "React Native", "Firebase", "Raspberry Pi", "Sense HAT"],
+      "tech": [
+        "Python",
+        "React Native",
+        "Firebase",
+        "Raspberry Pi",
+        "Sense HAT"
+      ],
       "org": "Personal Project",
       "link": "https://github.com/amineldery/MetroBeacon",
       "bullets": [
         "Built a campus transit-assistance system delivering real-time OC Transpo bus and train arrivals through a mobile app, LED indicators, and a Raspberry Pi Sense HAT display.",
         "Ingested live GTFS-RT trip updates and vehicle positions in Python and published them to a Firebase Realtime Database for cross-device access.",
         "Developed a React Native (Expo) GUI with dark mode, accessibility, and multilingual support, alongside a GPIO-driven LED map and button-triggered arrival feedback on hardware."
-      ]
+      ],
+      "category": "Software"
     },
     {
       "name": "FPGA Ethernet Packet Processing Engine",
-      "tech": ["Verilog", "Vivado", "Zybo Z7-20"],
+      "tech": [
+        "Verilog",
+        "Vivado",
+        "Zybo Z7-20"
+      ],
       "org": "Carleton University FPGA Club",
       "link": "https://github.com/amineldery/fpga-packet-processing-engine",
       "bullets": [
         "Designed an FPGA-based Ethernet packet processor in Verilog on the Zybo Z7-20, implementing FSMs, FIFOs, and packet parsing logic.",
         "Implemented CRC generation and validation to ensure reliable packet transmission and data integrity.",
         "Verified functionality using Vivado simulations and self-checking testbenches while analyzing timing closure and FPGA resource utilization."
-      ]
+      ],
+      "category": "Hardware"
     },
     {
       "name": "GPU & ASIC Mining Farm",
-      "tech": ["Linux", "HiveOS", "Hardware", "Power & Thermal", "Networking"],
+      "tech": [
+        "Linux",
+        "HiveOS",
+        "Hardware",
+        "Power & Thermal",
+        "Networking"
+      ],
       "org": "Personal Project · 2020–2022",
       "bullets": [
         "Built and operated a 40-GPU mining farm (AMD RX 5700 XT) and 2 Bitmain Antminer T9 ASICs, handling hardware assembly, PCIe riser wiring, electrical circuit planning and power distribution.",
         "Managed the full fleet remotely through HiveOS (Linux), tuning per-card clocks, voltages and memory timings for efficiency and stability, with monitoring and alerts for fast fault response.",
         "Designed the cooling, airflow and network setup, and diagnosed hardware and software faults such as failing risers, unstable overclocks and rig crashes to keep uptime high over two years of continuous operation."
-      ]
+      ],
+      "category": "Infrastructure"
     },
     {
       "name": "Real-Time Traffic Light Controller",
-      "tech": ["Keil", "C", "MSP432", "ARM Cortex-M4"],
+      "tech": [
+        "Keil",
+        "C",
+        "MSP432",
+        "ARM Cortex-M4"
+      ],
       "org": "Carleton University",
       "bullets": [
         "Designed a real-time traffic light controller in Embedded C on the MSP432, implementing interrupt-driven pedestrian crossing and timer-based state transitions.",
         "Configured GPIO, timers, NVIC interrupts, and debouncing to ensure reliable real-time operation.",
         "Developed modular firmware drivers and validated functionality using Keil µVision and on-board debugging tools."
-      ]
+      ],
+      "category": "Embedded"
     }
   ]
 }

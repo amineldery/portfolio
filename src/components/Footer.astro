@@ -1,21 +1,26 @@
 ---
+import { ui } from "../lib/ui-icons";
+
 interface Props {
   email: string;
   linkedin: string;
+  github: string;
 }
 
-const { email, linkedin } = Astro.props;
+const { email, linkedin, github } = Astro.props;
 ---
 
-<footer class="px-6 md:px-16 max-w-5xl mx-auto py-16 border-t border-border">
-  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+<footer class="px-6 md:px-16 max-w-5xl mx-auto py-10 border-t border-border">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
     <p class="font-mono text-xs text-neutral-500">
-      © {new Date().getFullYear()} Amin Eldery
+      © {new Date().getFullYear()} Amin Eldery <span class="mx-2 text-neutral-700">·</span> Built with Astro &amp; Tailwind
     </p>
-    <div class="flex gap-4 font-mono text-sm">
-      <a href={`mailto:${email}`} class="text-neutral-400 hover:text-accent transition-colors">Email</a>
-      <a href={linkedin} target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-accent transition-colors">LinkedIn</a>
-      <a href="/Amin_Eldery_Resume.pdf" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-accent transition-colors">Resume</a>
+    <div class="flex items-center gap-2">
+      <a href={github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="grid place-items-center w-9 h-9 rounded-md border border-border text-neutral-400 hover:text-accent hover:border-accent transition-colors"><span class="w-4 h-4" set:html={ui.github} /></a>
+      <a href={linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="grid place-items-center w-9 h-9 rounded-md border border-border text-neutral-400 hover:text-accent hover:border-accent transition-colors"><span class="w-4 h-4" set:html={ui.linkedin} /></a>
+      <a href={`mailto:${email}`} aria-label="Email" class="grid place-items-center w-9 h-9 rounded-md border border-border text-neutral-400 hover:text-accent hover:border-accent transition-colors"><span class="w-4 h-4" set:html={ui.mail} /></a>
+      <a href="/Amin_Eldery_Resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Resume" class="grid place-items-center w-9 h-9 rounded-md border border-border text-neutral-400 hover:text-accent hover:border-accent transition-colors"><span class="w-4 h-4" set:html={ui.file} /></a>
+      <span class="hidden md:inline ml-3 font-mono text-xs text-neutral-600">press <span class="kbd">Ctrl K</span></span>
     </div>
   </div>
 </footer>

@@ -1,0 +1,142 @@
+---
+import { ui } from "../lib/ui-icons";
+
+const links = [
+  { href: "#about", label: "About" },
+  { href: "#experience", label: "Experience" },
+  { href: "#projects", label: "Projects" },
+  { href: "#skills", label: "Skills" },
+  { href: "#contact", label: "Contact" },
+];
+
+const themes = [
+  { id: "emerald", label: "Emerald", color: "#34d399" },
+  { id: "cyan", label: "Cyan", color: "#22d3ee" },
+  { id: "violet", label: "Violet", color: "#a78bfa" },
+  { id: "amber", label: "Amber", color: "#fbbf24" },
+  { id: "rose", label: "Rose", color: "#fb7185" },
+];
+---
+
+<nav id="site-nav" class="nav-shell fixed top-0 inset-x-0 z-40">
+  <div class="max-w-5xl mx-auto px-6 md:px-16 h-16 flex items-center justify-between gap-4">
+    <a href="#top" class="group flex items-center gap-2 font-mono text-sm text-white" aria-label="Back to top">
+      <span class="grid place-items-center w-8 h-8 rounded-md border border-border bg-surface text-accent font-bold transition-all group-hover:border-accent group-hover:shadow-[0_0_16px_-4px_var(--color-accent)]">AE</span>
+      <span class="hidden sm:inline text-neutral-400 group-hover:text-white transition-colors">amin<span class="text-accent">.</span>eldery</span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-6 text-sm">
+      {links.map((l) => <a href={l.href} class="nav-link" data-nav={l.href.slice(1)}>{l.label}</a>)}
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button id="cmdk-open" type="button" class="hidden sm:inline-flex items-center gap-2 h-9 px-3 rounded-md border border-border bg-surface/70 text-neutral-400 hover:text-white hover:border-accent transition-colors text-xs font-mono" aria-label="Open command menu">
+        <span class="w-3.5 h-3.5" set:html={ui.search} />
+        <span>Search</span>
+        <span class="kbd">Ctrl K</span>
+      </button>
+
+      <div class="relative">
+        <button id="theme-toggle" type="button" class="grid place-items-center w-9 h-9 rounded-md border border-border bg-surface/70 text-neutral-300 hover:text-accent hover:border-accent transition-colors" aria-label="Change accent color" aria-haspopup="true" aria-expanded="false">
+          <span class="w-4 h-4" set:html={ui.palette} />
+        </button>
+        <div id="theme-menu" class="hidden absolute right-0 mt-2 p-3 rounded-lg border border-border bg-surface shadow-2xl shadow-black/60 w-48" role="menu">
+          <p class="font-mono text-[11px] text-neutral-500 mb-2">// accent color</p>
+          <div class="grid grid-cols-5 gap-2">
+            {themes.map((t) => (
+              <button type="button" class="theme-swatch w-7 h-7 rounded-full border-2 border-transparent transition-transform hover:scale-110" style={`background:${t.color}`} data-theme={t.id} aria-label={t.label} title={t.label} role="menuitemradio"></button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <button id="menu-toggle" type="button" class="md:hidden grid place-items-center w-9 h-9 rounded-md border border-border bg-surface/70 text-neutral-300" aria-label="Open menu" aria-expanded="false">
+        <span class="w-4 h-4" set:html={ui.menu} />
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden hidden border-t border-border bg-bg/95 backdrop-blur-md">
+    <div class="px-6 py-4 flex flex-col gap-1 font-mono text-sm">
+      {links.map((l, i) => (
+        <a href={l.href} class="mobile-link py-2 text-neutral-300 hover:text-accent">
+          <span class="text-accent">0{i + 1}.</span> {l.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<script>
+  const nav = document.getElementById("site-nav")!;
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>("[data-nav]");
+  const onScroll = () => {
+    nav.classList.toggle("is-scrolled", window.scrollY > 24);
+    if (window.scrollY < window.innerHeight * 0.5) navLinks.forEach((l) => l.classList.remove("is-active"));
+  };
+  document.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // highlight the section currently on screen
+  const sections = [...navLinks]
+    .map((l) => document.getElementById(l.dataset.nav!))
+    .filter((s): s is HTMLElement => !!s);
+  const spy = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          navLinks.forEach((l) => l.classList.toggle("is-active", l.dataset.nav === e.target.id));
+        }
+      }
+    },
+    { rootMargin: "-45% 0px -50% 0px" }
+  );
+  sections.forEach((s) => spy.observe(s));
+
+  // mobile menu
+  const menuBtn = document.getElementById("menu-toggle")!;
+  const mobile = document.getElementById("mobile-menu")!;
+  const setMenu = (open: boolean) => {
+    mobile.classList.toggle("hidden", !open);
+    menuBtn.setAttribute("aria-expanded", String(open));
+  };
+  menuBtn.addEventListener("click", () => setMenu(mobile.classList.contains("hidden")));
+  mobile.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+
+  // accent theme picker
+  const themeBtn = document.getElementById("theme-toggle")!;
+  const themeMenu = document.getElementById("theme-menu")!;
+  const swatches = document.querySelectorAll<HTMLButtonElement>(".theme-swatch");
+
+  function markActive() {
+    const current = document.documentElement.dataset.accent || "emerald";
+    swatches.forEach((s) => {
+      const on = s.dataset.theme === current;
+      s.style.borderColor = on ? "#fff" : "transparent";
+      s.setAttribute("aria-checked", String(on));
+    });
+  }
+
+  function setMenuOpen(open: boolean) {
+    themeMenu.classList.toggle("hidden", !open);
+    themeBtn.setAttribute("aria-expanded", String(open));
+  }
+
+  themeBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setMenuOpen(themeMenu.classList.contains("hidden"));
+  });
+  document.addEventListener("click", (e) => {
+    if (!themeMenu.contains(e.target as Node)) setMenuOpen(false);
+  });
+  swatches.forEach((s) =>
+    s.addEventListener("click", () => {
+      (window as any).setAccent(s.dataset.theme);
+      markActive();
+    })
+  );
+  window.addEventListener("accentchange", markActive);
+  markActive();
+
+  document.getElementById("cmdk-open")?.addEventListener("click", () => window.dispatchEvent(new Event("cmdk:open")));
+</script>

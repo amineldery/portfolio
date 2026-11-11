@@ -1,31 +1,47 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
 import Header from "../components/Header.astro";
+import About from "../components/About.astro";
 import Stats from "../components/Stats.astro";
 import TechMarquee from "../components/TechMarquee.astro";
-import Timeline from "../components/Timeline.astro";
+import Experience from "../components/Experience.astro";
 import Projects from "../components/Projects.astro";
 import Skills from "../components/Skills.astro";
+import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
+import Overlays from "../components/Overlays.astro";
 import resume from "../../content/resume.json";
 
 const allSkills = Object.values(resume.skills).flat();
 
 const stats = [
-  { label: "Projects Shipped", value: "0", countTo: resume.projects.length },
-  { label: "Technologies", value: "0", countTo: allSkills.length },
-  { label: "Roles Held", value: "0", countTo: resume.experience.length },
+  { label: "Projects", countTo: resume.projects.length },
+  { label: "Technologies", countTo: allSkills.length },
+  { label: "Roles Held", countTo: resume.experience.length },
+  { label: "Certifications", countTo: resume.certifications.length },
 ];
+
+const facts = [
+  { icon: "cap", label: "Studying", value: "Computer Systems Engineering, Carleton University (Expected May 2028)" },
+  { icon: "briefcase", label: "Latest role", value: `${resume.experience[0].role}, ${resume.experience[0].company}` },
+  { icon: "badge", label: "Certified", value: resume.certifications[0].name },
+  { icon: "pin", label: "Based in", value: resume.contact.location },
+] as const;
 ---
 
-<Layout title={`${resume.name} · Portfolio`} description={resume.title}>
+<Layout title={`${resume.name} · Portfolio`} description={`${resume.name}, ${resume.title}. Embedded systems, FPGA design and DevOps.`}>
+  <Nav />
   <main class="bg-bg">
-    <Header name={resume.name} title={resume.title} contact={resume.contact} />
+    <Header name={resume.name} roles={resume.roles} contact={resume.contact} />
+    <About about={resume.about} facts={[...facts]} />
     <Stats stats={stats} />
     <TechMarquee items={allSkills} />
-    <Timeline experience={resume.experience} education={resume.education} certifications={resume.certifications} />
+    <Experience experience={resume.experience} education={resume.education} certifications={resume.certifications} />
     <Projects projects={resume.projects} />
     <Skills skills={resume.skills} />
-    <Footer email={resume.contact.email} linkedin={resume.contact.linkedin} />
+    <Contact contact={resume.contact} />
+    <Footer email={resume.contact.email} linkedin={resume.contact.linkedin} github={resume.contact.github} />
   </main>
+  <Overlays email={resume.contact.email} linkedin={resume.contact.linkedin} github={resume.contact.github} projects={resume.projects} />
 </Layout>
