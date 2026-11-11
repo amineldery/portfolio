@@ -9,7 +9,6 @@ const DEVICON_SLUGS: Record<string, string> = {
   "MATLAB": "matlab/matlab-original.svg",
   "Raspberry Pi": "raspberrypi/raspberrypi-original.svg",
   "Arduino": "arduino/arduino-original.svg",
-  "AWS (S3, ECR, Lambda)": "amazonwebservices/amazonwebservices-original-wordmark.svg",
   "Docker": "docker/docker-original.svg",
   "Kubernetes": "kubernetes/kubernetes-plain.svg",
   "Proxmox VE": "proxmox/proxmox-original.svg",
@@ -20,6 +19,11 @@ const DEVICON_SLUGS: Record<string, string> = {
   "NumPy": "numpy/numpy-original.svg",
   "PyTorch": "pytorch/pytorch-original.svg",
   "JUnit": "junit/junit-original.svg",
+};
+
+// Hosted in public/icons (AWS was removed from the devicon CDN; text recolored for the dark background).
+const LOCAL_ICONS: Record<string, string> = {
+  "AWS (S3, ECR, Lambda)": "/icons/aws.svg",
 };
 
 const SIMPLE_ICONS_SLUGS: Record<string, string> = {
@@ -37,6 +41,8 @@ const MONOGRAMS: Record<string, string> = {
 };
 
 export function iconFor(skill: string): string | null {
+  const local = LOCAL_ICONS[skill];
+  if (local) return local;
   const devicon = DEVICON_SLUGS[skill];
   if (devicon) return `${DEVICON_BASE}/${devicon}`;
   const simple = SIMPLE_ICONS_SLUGS[skill];
